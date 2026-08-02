@@ -1,0 +1,35 @@
+class Solution {
+struct ParenthesisState {
+    string str;
+    int openCount;
+    int closeCount;
+};
+
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        queue<ParenthesisState> q;
+        
+        q.push({"", 0, 0});
+        
+        while (!q.empty()) {
+            ParenthesisState current = q.front();
+            q.pop();
+            
+            if (current.str.length() == 2 * n) {
+                result.push_back(current.str);
+                continue;
+            }
+            
+            if (current.openCount < n) {
+                q.push({current.str + "(", current.openCount + 1, current.closeCount});
+            }
+            
+            if (current.closeCount < current.openCount) {
+                q.push({current.str + ")", current.openCount, current.closeCount + 1});
+            }
+        }
+        
+        return result;
+    }
+};
