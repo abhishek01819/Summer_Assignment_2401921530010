@@ -1,0 +1,36 @@
+class Solution {
+private:
+    string decode(const string& s, int& index) {
+        string currentString = "";
+
+        while (index < s.length() && s[index] != ']') {
+            if (!isdigit(s[index])) {
+                currentString += s[index];
+                index++;
+            } else {
+                int k = 0;
+                while (index < s.length() && isdigit(s[index])) {
+                    k = k * 10 + (s[index] - '0');
+                    index++;
+                }
+
+                index++; 
+                string decodedString = decode(s, index);
+                index++; 
+
+                while (k > 0) {
+                    currentString += decodedString;
+                    k--;
+                }
+            }
+        }
+
+        return currentString;
+    }
+
+public:
+    string decodeString(string s) {
+        int index = 0;
+        return decode(s, index);
+    }
+};
